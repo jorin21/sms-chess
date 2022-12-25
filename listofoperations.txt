@@ -1,0 +1,26 @@
+- manage board display with ASCII ✔
+
+- populate board with chess pieces accordingly ✔
+
+- manage user inputs ✔
+ - ensure pieces are moved to required spots ✔
+ - if piece is taken, make sure it shows that the piece has been taken
+ 
+
+- detect invalid inputs
+
+- refresh board status with every input
+
+- detect checkmate, draw etc. ✔
+
+- give option to forfeit 
+
+- create server that handles chess inputs
+
+- have server send SMS updates everytime a player makes a move
+
+- be able to run multiple games at the same time
+
+- create way to invite players by sending request to server and server sending request to requested phone number
+
+- be able to track which game has which players 
