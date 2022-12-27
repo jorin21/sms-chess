@@ -1,9 +1,9 @@
 from textwrap import dedent
-from gen_img import gen_board
+from gen_img import gen_board, gen_take
 import chess
 
 
-def display_board(c_board):
+def display_board(c_board: chess.Board):
     board = dedent('''\
            ┌───┬───┬───┬───┬───┬───┬───┬───┐
          8 │ . │ # │ . │ # │ . │ # │ . │ # │
@@ -71,15 +71,24 @@ def display_board(c_board):
     gen_board(f_board)
 
 
-def parse_move(board,move):
+def parse_move(board: chess.Board, move: str) -> chess.Move:
     try:
         return board.parse_san(move)
     except:
         move = move.lower()
         return board.parse_uci(move)
 
+def display_take(w_capture,b_capture):
+    Captures = 'W : ' + str(w_capture) + '\n\nB : ' + str(b_capture)
+    gen_take(Captures)
+
+
 board = chess.Board()
+w_capture = []
+b_capture = []
+
 display_board(board)
+display_take(w_capture,b_capture)
 print(board)
 
 
@@ -101,10 +110,20 @@ while not board.is_game_over():
     if player_input.lower() != 'forfeit':
         try:
             p_move = parse_move(board,player_input)
-            if p_move in board.legal_moves: 
+            print(board.piece_at(p_move.to_square))
+            if p_move in board.legal_moves:
+                if board.is_capture(p_move):
+                    cap = board.piece_at(p_move.to_square)
+                    if cap.color:
+                        b_capture.append(cap.unicode_symbol())
+                        display_take(w_capture,b_capture)
+                    else:
+                        w_capture.append(cap.unicode_symbol())
+                        display_take(w_capture,b_capture)
                 board.push(p_move)
                 display_board(board)
                 print(board)
+                
 
             else:
                 print(player_input + " Is not a valid move! Please try again\n")
